@@ -1,18 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import quoteList from './quotes.json';
+import Button from './Button.js';
 import './App.css';
 
 class App extends Component {
+  constructor (props) {
+    super(props);
+    //set statess
+    this.state = {
+      quoteList: quoteList,
+      //quoteList : quoteList,
+      quoteShown: false,
+      currentQuote: 'no generated quote'
+    }
+    //setuping your own custom functions
+    this.generateQuote = this.generateQuote.bind(this); 
+  }
+  generateQuote(element){
+    var randomItem = Math.floor(Math.random() * this.state.quoteList.length);
+    this.setState({
+      currentQuote: this.state.quoteList[randomItem].quote,
+      quoteShown: true
+    })
+  }
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Welcome to the quote generator</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Button handleClick={this.generateQuote}/>
+        {this.state.currentQuote}
       </div>
     );
   }
