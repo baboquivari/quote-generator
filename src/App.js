@@ -11,6 +11,9 @@ class App extends Component {
     this.state = {
       quoteList: quoteList,
       topic: 'All',
+      topics: Array.from(new Set(quoteList.map(function (ele) {
+        return ele.topic
+      }))),
       currentQuote: 'no generated quote'
     }
     //setuping your own custom functions
@@ -27,6 +30,8 @@ class App extends Component {
 
   switchTopic(event){
     var topic = event.target.innerHTML;
+    console.log(topic);
+
 
     if (topic == 'All'){
       this.setState({
@@ -51,7 +56,9 @@ class App extends Component {
         </header>
         <Button generateQuote={this.generateQuote}/>
         {this.state.currentQuote}
-        <Filters switchTopic={this.switchTopic}/>
+
+        <button onClick={this.switchTopic}>All</button>
+        <Filters switchTopic={this.switchTopic} topics={this.state.topics}/>
       </div>
     );
   }
